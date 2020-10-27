@@ -78,12 +78,8 @@ class Cart
      */
     public function getCart($request, $httpResponse, $view)
     {
-        $sessionId         = $request->getCookie('sg_session');
         $customerId        = $request->getCookie('customer_id');
         $promotionVouchers = json_decode($request->getCookie('sg_promotion'), true);
-
-        $this->session->offsetSet('sessionId', $sessionId);
-        session_id($sessionId);
 
         if (isset($promotionVouchers)) {
             $this->session->offsetSet('promotionVouchers', $promotionVouchers);
