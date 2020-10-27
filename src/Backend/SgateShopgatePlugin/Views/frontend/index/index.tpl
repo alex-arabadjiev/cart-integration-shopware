@@ -42,8 +42,6 @@
             {if $sgSessionId || $sgActionName === 'confirm' || $sgActionName === 'shippingPayment' ||  $sgActionName === 'cart'}
                 <script type="text/javascript">
                     function initPipelineCall () {ldelim}
-
-
                         window.SGAppConnector.sendPipelineRequest(
                             'onedot.checkout.updateSession.v1',
                             false,
@@ -62,11 +60,11 @@
                                 window.SGAppConnector.sendAppCommands(commands);
 
                                 {if $sgActionName === 'shippingPayment'}
-                                    {if $sgIsNewCustomer && $sgUserId}
+                                    {if $sgIsNewCustomer && $sgEmail && $sgHash }
                                         window.SGAppConnector.sendPipelineRequest(
-                                            'onedot.user.setLoggedInUser.v1',
+                                            'shopgate.user.loginUser.v1',
                                             true,
-                                            {ldelim}'userId': '{$sgUserId}'{rdelim},
+                                            {ldelim}'strategy': 'auth_code', 'parameters': {ldelim}'email': '{$sgEmail}', 'hash': '{$sgHash}'{rdelim}{rdelim},
                                             function (err, serial, output) {ldelim}
                                                 var commands = [
                                                     {ldelim}
@@ -146,19 +144,16 @@
             {if $sgFrontendAccount && !$sgForgotPassword}
                 <script type="text/javascript">
                     function initPipelineCall () {ldelim}
-                        {if !$sgAccountView }
-                            window.location.href = '/account#show-registration';
-                        {/if}
                         window.SGAppConnector.sendPipelineRequest(
                             'onedot.checkout.updateSession.v1',
                             false,
                             {ldelim}'sessionId': '{$sgSessionId}'{rdelim},
                             function (err, serial, output) {ldelim}
-                                {if !$sgAccountView }
+                                {if $sgUserId}
                                     window.SGAppConnector.sendPipelineRequest(
-                                        'shopgate.user.loginUser.v1',
+                                        'onedot.user.setLoggedInUser.v1',
                                         true,
-                                        {ldelim}'strategy': 'auth_code', 'parameters': {ldelim}'email': '{$sgEmail}', 'hash': '{$sgHash}'{rdelim}{rdelim},
+                                        {ldelim}'userId': '{$sgUserId}'{rdelim},
                                         function (err, serial, output) {ldelim}
                                             var commands = [
                                                 {ldelim}

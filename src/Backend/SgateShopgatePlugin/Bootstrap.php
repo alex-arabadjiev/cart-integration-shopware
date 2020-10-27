@@ -155,7 +155,7 @@ class Shopware_Plugins_Backend_SgateShopgatePlugin_Bootstrap extends Shopware_Co
      */
     public function getVersion()
     {
-        return '2.9.93-tonitec-7';
+        return '2.9.93-tonitec-8';
     }
 
     /**
@@ -1386,6 +1386,7 @@ class Shopware_Plugins_Backend_SgateShopgatePlugin_Bootstrap extends Shopware_Co
         $view->assign('sgWebCheckout', $this->isInWebView($args));
         $view->addTemplateDir($this->Path() . 'Views/');
         $view->assign('sgActionName', false);
+        $view->assign('sgUserId', false);
 
         $customCss = Shopware()->Config()->getByNamespace('SgateShopgatePlugin', 'SGATE_CUSTOM_CSS');
         $view->assign('sgCustomCss', $customCss);
@@ -1413,6 +1414,7 @@ class Shopware_Plugins_Backend_SgateShopgatePlugin_Bootstrap extends Shopware_Co
             $view->assign('sgHash', $hash);
             $view->assign('sgEmail', $email);
             $view->assign('sgSessionId', Shopware()->Session()->offsetGet('sessionId'));
+            $view->assign('sgUserId', $user['customernumber']);
         } else {
             $view->assign('sgAccountView', false);
             $view->assign('sgForgotPassword', false);
