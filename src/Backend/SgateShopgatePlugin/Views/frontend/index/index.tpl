@@ -149,7 +149,7 @@
                             false,
                             {ldelim}'sessionId': '{$sgSessionId}'{rdelim},
                             function (err, serial, output) {ldelim}
-                                {if $sgUserId}
+                                {if !$sgAccountView && $sgUserId}
                                     window.SGAppConnector.sendPipelineRequest(
                                         'onedot.user.setLoggedInUser.v1',
                                         true,
